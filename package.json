@@ -1,0 +1,26 @@
+{
+  "name": "hamster",
+  "version": "0.1.0",
+  "description": "A simple discord bot for Moxxxi's breasts",
+  "main": "src/bot.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sparin/Hamster.git"
+  },
+  "keywords": [
+    "bot",
+    "discord"
+  ],
+  "author": "Sparin, ajioe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sparin/Hamster/issues"
+  },
+  "homepage": "https://github.com/Sparin/Hamster#readme",
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
