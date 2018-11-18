@@ -1,6 +1,7 @@
 "use strict";
 
 const prefix = "!"
+const Discord = require("discord.js");
 
 // Машрутизирует сообщение к команде
 function handle(msg) {
@@ -29,7 +30,17 @@ function ping(msg) {
 }
 
 function about(msg){
-    msg.reply("Hi! My name is Hamster and I'm ready to serve you!");
+    let sicon = msg.guild.iconURL;
+    let serverembed = new Discord.RichEmbed()
+    .setDescription("Bot Information")
+    .setColor("#15f153")
+    .setThumbnail(sicon)
+    .addField("Server Name", msg.guild.name)
+    .addField("Created On", msg.guild.createdAt)
+    .addField("You Joined", msg.member.joinedAt)
+    .addField("Total Members", msg.guild.memberCount);
+
+    msg.channel.send(serverembed);
 }
 
 // Сюда добавлять новые команды-функции
