@@ -4,7 +4,6 @@ const prefix = "!"
 const Discord = module.require("discord.js");
 const client = new Discord.Client();  // <--- Важная фигня, не удалять!
 
-var dialogs = {};
 
 // Машрутизирует сообщение к команде
 function handle(msg) {
