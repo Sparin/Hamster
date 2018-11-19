@@ -1,7 +1,10 @@
 "use strict";
 
 const prefix = "!"
-const Discord = require("discord.js");
+const Discord = module.require("discord.js");
+const client = new Discord.Client();  // <--- Важная фигня, не удалять!
+
+var dialogs = {};
 
 // Машрутизирует сообщение к команде
 function handle(msg) {
@@ -24,28 +27,50 @@ function handle(msg) {
 function isCommand(msg) {
     return msg.content.startsWith(prefix);
 }
-
+// Простая команда ping-pong
 function ping(msg) {
-    msg.reply("Pong");
+    msg.reply(msg.client.ping);
 }
-
-function about(msg){
-    let sicon = msg.guild.iconURL;
+// Выдает информацию о боте
+function about(msg) {
+    let bicon = msg.client.user.displayAvatarURL;
     let serverembed = new Discord.RichEmbed()
-    .setDescription("Bot Information")
-    .setColor("#15f153")
-    .setThumbnail(sicon)
-    .addField("Server Name", msg.guild.name)
-    .addField("Created On", msg.guild.createdAt)
-    .addField("You Joined", msg.member.joinedAt)
-    .addField("Total Members", msg.guild.memberCount);
+        .setDescription("Bot Information")
+        .setColor("#15f153")
+        .setThumbnail(bicon)
+        .addField("Server Name", msg.guild.name)
+        .addField("Bot Name", msg.client.user.username)
+        .addField("Created On", msg.client.user.createdAt);
 
     msg.channel.send(serverembed);
 }
+
+function clear(msg) {
+    msg.channel.fetchMessages( { limit:100} )
+    .then(messages => messages.forEach((item, i, array)=>{item.delete();}));
+
+    msg.channel.send('chat is clear!')
+
+}
+// Команда шаблон для создания (к релизу удалить!!!!)
+function test(msg) {
+
+}
+
+module.exports.help = {
+    name: "clear"
+}
+
+
+
+
+
 
 // Сюда добавлять новые команды-функции
 module.exports = {
     handle: handle,
     ping: ping,
-    about: about
+    about: about,
+    clear: clear,
+    test: test
 };
