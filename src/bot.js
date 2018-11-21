@@ -13,4 +13,4 @@ client.on('message', msg =>{
 
 
 client.login(config.Token);
-console.log("Bot initialized with settings from botsettings.json");
+console.log(`Ready to serve in ${client.channels.size} channels on ${client.guilds.size} servers, for a total of ${client.users.size} users.`);

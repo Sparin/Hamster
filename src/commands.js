@@ -2,9 +2,8 @@
 
 const prefix = "!"
 const Discord = module.require("discord.js");
-const client = new Discord.Client();  // <--- Важная фигня, не удалять!
+const fs = require("fs");
 
-var dialogs = {};
 
 // Машрутизирует сообщение к команде
 function handle(msg) {
@@ -44,26 +43,25 @@ function about(msg) {
 
     msg.channel.send(serverembed);
 }
-
+// Удаляет 100 последних сообщений
 function clear(msg) {
-    msg.channel.fetchMessages( { limit:100} )
-    .then(messages => messages.forEach((item, i, array)=>{item.delete();}));
+    if (!msg.member.hasPermission("MANAGE_MESSAGES")) {
+        msg.reply("Nope!");
+        console.log(msg.content);
+    }
+    else {
+        msg.channel.fetchMessages({ limit: 100 })
+            .then(messages => messages.forEach((item, i, array) => { item.delete(); }));
 
-    msg.channel.send('chat is clear!')
+        msg.channel.send('chat is clear!')
+    }
 
 }
 // Команда шаблон для создания (к релизу удалить!!!!)
 function test(msg) {
 
-}
-
-module.exports.help = {
-    name: "clear"
-}
-
-
-
-
+  }
+  
 
 
 // Сюда добавлять новые команды-функции
