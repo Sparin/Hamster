@@ -1,16 +1,26 @@
-"use strict";
 const Discord = require('discord.js');
 const fs = require('fs');
-// const commands = require('./commands.js');
-const ExampleHandler = require('./ExampleHandler');
-var commands = new ExampleHandler("!");
+const ExampleHandler = require("./ExampleHandler");
 
-const client = new Discord.Client();
-const config = JSON.parse(fs.readFileSync('botsettings.json', 'utf8'));
+class Bot {
+    /**
+     * 
+     * @param {string} token Bot API token 
+     */
+    constructor(token) {
+        this.client = new Discord.Client();
+        this.token = token;
 
-client.on('message', msg => {
-    commands.handle(msg);
-});
+        this.commands = new ExampleHandler("!");
 
-client.login(config.Token);
-console.log("Bot initialized with settings from botsettings.json");
+        this.client.on('message', msg => {
+            this.commands.handle(msg);
+        });
+    }
+
+    run() {
+        this.client.login(this.token);
+    }
+}
+
+module.exports = Bot;

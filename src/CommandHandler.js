@@ -20,10 +20,11 @@ class CommandHandler {
 
         let command = message.content.substring(this.prefix.length);
         let arguements = getArguements(command);
-        let action = this[command];
+        let action = this[arguements[0]];
+        arguements = arguements.slice(1);
 
         if (action != undefined)
-            this.dialogs[message.author.id] = action(message, dialogState);
+            this.dialogs[message.author.id] = action(message, arguements, dialogState);
     }
 }
 

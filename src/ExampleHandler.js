@@ -7,29 +7,66 @@ class ExampleHandler extends CommandHandler {
     }
 
     /**
-     * 
+     * Prints the client's latency
      * @param {Discord.Message} message 
      */
     ping(message) {
-        message.reply("Pong");
+        message.reply(message.client.ping);
     }
 
     /**
-     * 
+     * Print's description of the bot
      * @param {Discord.Message} message 
      */
     about(message) {
-        let sicon = message.guild.iconURL;
+        let bicon = message.client.user.displayAvatarURL;
         let serverembed = new Discord.RichEmbed()
             .setDescription("Bot Information")
             .setColor("#15f153")
-            .setThumbnail(sicon)
+            .setThumbnail(bicon)
             .addField("Server Name", message.guild.name)
-            .addField("Created On", message.guild.createdAt)
-            .addField("You Joined", message.member.joinedAt)
-            .addField("Total Members", message.guild.memberCount);
+            .addField("Bot Name", message.client.user.username)
+            .addField("Created On", message.client.user.createdAt);
 
         message.channel.send(serverembed);
+    }
+
+    /**
+     * Clear last 100 message in channel of caller
+     * @param {Discord.Message} message 
+     * @param {Array<string>} arguements
+     */
+    clear(message, arguements) {
+        if (!message.member.hasPermission("MANAGE_MESSAGES")) {
+            message.reply("Nope!");
+        }
+        else {
+            let numberToDelete = 0;
+            if (arguements.length == 0) {
+                message.reply("specify number of message to clean. For example: !clear 100");
+                return;
+            }
+            else {
+                numberToDelete = parseInt(arguements[0]);
+                if (Number.isNaN(numberToDelete)) {
+                    message.reply("пошел нахуй");
+                    return;
+                }
+            }
+
+            message.channel.fetchMessages({ limit: numberToDelete })
+                .then(messages => messages.forEach((item, i, array) => { item.delete(); }));
+
+            message.channel.send('chat is clear!')
+        }
+    }
+
+    /**
+     * Маша очень просит не удалять, потому что ей лениво прописывать и удалять каждый раз эту команду. Вооооут ._.
+     * @param {Discord.Message} message 
+     */
+    test(message) {
+
     }
 }
 
