@@ -32,7 +32,7 @@ class ExampleHandler extends CommandHandler {
     }
 
     /**
-     * Clear last 100 message in channel of caller
+     * Clear last N messages in channel of caller
      * @param {Discord.Message} message 
      * @param {Array<string>} arguements
      */
