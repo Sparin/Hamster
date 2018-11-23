@@ -1,5 +1,7 @@
 const Discord = require("discord.js");
 const CommandHandler = require("./CommandHandler");
+const client = new Discord.Client
+
 
 class ExampleHandler extends CommandHandler {
     constructor(prefix) {
@@ -37,8 +39,20 @@ class ExampleHandler extends CommandHandler {
      * @param {Array<string>} arguements
      */
     clear(message, arguements) {
+        let botlogs = message.guild.channels.find(`name`, "bot-logs");
         if (!message.member.hasPermission("MANAGE_MESSAGES")) {
-            message.reply("Nope!");
+            message.channel.send("Nope!");
+            const nopeembed = new Discord.RichEmbed()
+                .setAuthor("Hamster")
+                .setDescription("NO PERMS!")
+                .setColor("#4834d4")
+                .addField("Full Username", `${message.author.username}#${message.author.discriminator}`, true)
+                .addField("ID", message.author.id, true)
+                .addField("Created At", message.author.createdAt, true)
+                .addField("Used command", `clear`)
+
+            botlogs.send(nopeembed)
+
         }
         else {
             let numberToDelete = 0;
@@ -49,7 +63,7 @@ class ExampleHandler extends CommandHandler {
             else {
                 numberToDelete = parseInt(arguements[0]);
                 if (Number.isNaN(numberToDelete)) {
-                    message.reply("пошел нахуй");
+                    message.reply("Nope!");
                     return;
                 }
             }
@@ -62,9 +76,59 @@ class ExampleHandler extends CommandHandler {
     }
 
     /**
-     * Маша очень просит не удалять, потому что ей лениво прописывать и удалять каждый раз эту команду. Вооооут ._.
+     * Kicked users !kick @user
      * @param {Discord.Message} message 
+     * @param {Array<string>} arguements
      */
+    kick(message, arguements) {
+        let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(arguements[0]));
+        if (!kUser) return message.channel.send("Can't find user!");
+
+        if (!message.member.hasPermission("MANAGE_MESSAGES"))
+            return message.channel.send("No can do pal!");
+
+        if (kUser.hasPermission("MANAGE_MESSAGES"))
+            return message.channel.send("That person can't be kicked!");
+
+        let kickChannel = message.guild.channels.find(`name`, "bot-logs");
+
+        if (!kickChannel)
+            return message.channel.send("Can't find incidents channel.");
+
+        let bUkick = message.author.username
+
+        const kickEmbed = new Discord.RichEmbed()
+            .setTitle(`${bUkick} kick ${kUser} user id`)
+            .setAuthor(`Author: ${bUkick}`)
+            .setColor(0x00AE86)
+            .setDescription("kicked users")
+            .setFooter(`created at`)
+            .setTimestamp(`${message.createdAt}`)
+            .addField("kicked", `${kUser}`)
+            .addField("channel", `${message.channel}`)
+
+
+        message.guild.member(kUser).kick();
+        kickChannel.send(kickEmbed);
+    }
+    /**
+   * Send message my info
+   * @param {Discord.Message} message 
+   */
+    myinfo(message) {
+        let embed = new Discord.RichEmbed()
+            .setAuthor(message.author.username)
+            .setDescription("this is the user's info!")
+            .setColor("#4834d4")
+            .addField("Full Username", `${message.author.username}#${message.author.discriminator}`, true)
+            .addField("ID", message.author.id, true)
+            .addField("Created At", message.author.createdAt, true)
+            .setThumbnail(message.author.avatarURL);
+
+        message.channel.sendEmbed(embed);
+
+
+    }
     test(message) {
 
     }
