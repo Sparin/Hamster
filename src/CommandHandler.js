@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 class CommandHandler {
-    constructor(prefix) {
+    constructor(prefix="") {
         this.prefix = prefix;
         this.dialogs = {};
     }
@@ -48,7 +48,7 @@ function getArguements(command) {
  * @param {Discord.Message} message Input raw message
  */
 function isCommand(message, prefix = "") {
-    return message.content.startsWith(prefix);
+    return message.content.startsWith(prefix) && message.content.length > prefix.length;
 }
 
 module.exports = CommandHandler;
