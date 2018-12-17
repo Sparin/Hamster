@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 class CommandHandler {
-    constructor(prefix="") {
+    constructor(prefix = "") {
         this.prefix = prefix;
         this.dialogs = {};
     }

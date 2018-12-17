@@ -16,6 +16,10 @@ class Bot {
         this.client.on('message', msg => {
             this.commands.handle(msg);
         });
+
+        this.client.on('ready', async () => {
+            await this.client.user.setActivity('на Машу', { type: 'WATCHING' });
+        });
     }
 
     run() {
