@@ -2,10 +2,10 @@ const Discord = require("discord.js");
 const CommandHandler = require("./CommandHandler");
 const client = new Discord.Client
 
-
 class ExampleHandler extends CommandHandler {
-    constructor(prefix) {
-        super(prefix);
+    constructor(prefix) {        
+        super(prefix);     
+        this.titiesSize =3;
     }
 
     /**
@@ -17,8 +17,31 @@ class ExampleHandler extends CommandHandler {
     }
 
     /**
-     * Print's description of the bot
+     * Получает размер груди Машки
      * @param {Discord.Message} message 
+     * @param {Array<string>} arguements
+     */
+    getTitiesSize(message, arguements) {
+        message.reply(this.titiesSize);
+    }
+
+    /**
+     * Задает размер груди Машки
+     * @param {Discord.Message} message
+     * @param {Array<string>} arguements
+     */
+    setTitiesSize(message, arguements) {
+        let size = parseInt(arguements[0]);
+        if (Number.isNaN(size) || size > 5 || size < 0) {
+            message.reply("У Машки таких сисек");
+            return;
+        }
+        this.titiesSize = size;
+    }
+
+    /**
+     * Print's description of the bot
+     * @param {Discord.Message} message      
      */
     about(message) {
         let bicon = message.client.user.displayAvatarURL;

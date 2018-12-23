@@ -24,7 +24,7 @@ class CommandHandler {
         arguements = arguements.slice(1);
 
         if (action != undefined)
-            this.dialogs[message.author.id] = action(message, arguements, dialogState);
+            this.dialogs[message.author.id] = action.call(this, message, arguements, dialogState);
     }
 }
 
