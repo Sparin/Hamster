@@ -4,7 +4,7 @@
   "description": "A simple discord bot for Sanctuary",
   "main": "src/Application.js",
   "scripts": {
-    "test": "test"
+    "start": "node src/Application.js"
   },
   "repository": {
     "type": "git",
