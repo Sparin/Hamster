@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const ExampleHandler = require("./ExampleHandler");
+const GroupManagementHandler = require("./GroupManagementHandler");
 
 class Bot {
     /**
@@ -12,9 +13,11 @@ class Bot {
         this.token = token;
 
         this.commands = new ExampleHandler("!");
+        this.groups = new GroupManagementHandler("!");
 
         this.client.on('message', msg => {
             this.commands.handle(msg);
+            this.groups.handle(msg);
         });
 
         this.client.on('ready', async () => {
