@@ -1,6 +1,9 @@
-const Discord = require("discord.js");
+import * as Discord from 'discord.js';
 
-class CommandHandler {
+abstract class CommandHandler {
+    prefix: string;
+    dialogs: any;
+
     constructor(prefix = "") {
         this.prefix = prefix;
         this.dialogs = {};
@@ -10,31 +13,28 @@ class CommandHandler {
      * Handles the message as input command or dialog arguement
      * @param {Discord.Message} message 
      */
-    handle(message) {
+    handle(message: Discord.Message) {
         let dialogState = this.dialogs[message.author.id];
         if (dialogState != undefined && dialogState.isComplete)
             dialogState = undefined;
 
         if (!isCommand(message, this.prefix) && dialogState == undefined)
             return;
-
         let command = message.content.substring(this.prefix.length);
-        let arguements = getArguements(command);
-        let action = this[arguements[0]];
-        arguements = arguements.slice(1);
+        let args = getArguments(command) as Array<string>;
+        let action = this[args[0]];
+        args = args.slice(1);
 
-        if (action != undefined)
-            this.dialogs[message.author.id] = action.call(this, message, arguements, dialogState);
+        if (action !== undefined)
+            this.dialogs[message.author.id] = action.call(this, message, args, dialogState);
     }
 }
-
-// Incapsulated functions (private) for avoid RCE
 
 /**
  * Splits the complex input command to the logical words and phrases
  * @param {string} command Clear command without prefixes
  */
-function getArguements(command) {
+export function getArguments(command: string) {
     // Splits the complex input command to the logical words and phrases
     // 'clear "typical complex" sooqa' => ["clear", "typical complex", "sooqa"]
     const pattern = /("{1}[^"]*"{1}|-{1,2}\w+|\w+)/ig;
@@ -47,8 +47,8 @@ function getArguements(command) {
  * Returns true if message is a command like
  * @param {Discord.Message} message Input raw message
  */
-function isCommand(message, prefix = "") {
+export function isCommand(message: Discord.Message, prefix: string = "") {
     return message.content.startsWith(prefix) && message.content.length > prefix.length;
 }
 
-module.exports = CommandHandler;
+export default CommandHandler;
