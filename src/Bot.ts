@@ -13,7 +13,7 @@ export default class Bot {
         this.client = new Discord.Client();
         this.token = token;
 
-        const groups = new GroupsHandler('!');
+        const groups = new GroupsHandler('!', this.client);
 
         this.client.on('message', msg => {
             groups.handle(msg);

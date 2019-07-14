@@ -77,3 +77,5 @@ botsettings.json
 
 # Build files
 dist
+database.sqlite
+.vscode
