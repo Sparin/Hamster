@@ -1,3 +1,9 @@
 {
-    "Token": "Discord's bot token"
+    "Token": "Discord's bot token",
+    "groupManagement": {
+        "watcherLoopInterval": 5000,
+        "managerLoopInterval": 10000,
+        "membershipDuration": 15000,
+        "guildId": "Guild id"
+    }
 }

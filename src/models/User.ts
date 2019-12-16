@@ -10,6 +10,9 @@ export class User {
     @Column()
     public discordId!: string;
 
+    @Column()
+    public name!: string;
+
     @OneToMany((type) => UserToGame, (userToGame) => userToGame.user)
     public userToGames!: UserToGame[];
 

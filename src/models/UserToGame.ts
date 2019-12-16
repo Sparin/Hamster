@@ -13,7 +13,7 @@ export class UserToGame {
     public gameId!: number;
 
     @Column()
-    public lastSeen!: Date;
+    public lastSeen!: number;
 
     @ManyToOne(type => Game, game => game.userToGames)
     public game!: Game;

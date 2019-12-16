@@ -1,19 +1,16 @@
 import * as Discord from 'discord.js';
 import GroupsHandler from './commands/GroupsHandler'
+import BotOptions from './configuration/BotOptions';
 
 export default class Bot {
     client: Discord.Client;
-    token: string;
+    options: BotOptions;
 
-    /**
-     * 
-     * @param {string} token Bot API token 
-     */
-    constructor(token: string) {
+    constructor(options: BotOptions) {
         this.client = new Discord.Client();
-        this.token = token;
+        this.options = options;
 
-        const groups = new GroupsHandler('!', this.client);
+        const groups = new GroupsHandler('!', this.client, options.groupManagement);
 
         this.client.on('message', msg => {
             groups.handle(msg);
@@ -25,7 +22,7 @@ export default class Bot {
     }
 
     public async start() {
-        await this.client.login(this.token);
+        await this.client.login(this.options.token);
     }
 
     public async stop() {

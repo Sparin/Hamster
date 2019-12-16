@@ -22,7 +22,7 @@ abstract class CommandHandler {
             return;
         let command = message.content.substring(this.prefix.length);
         let args = getArguments(command) as Array<string>;
-        let action = this[args[0]];
+        let action = (this as any)[args[0]];
         args = args.slice(1);
 
         if (action !== undefined)
